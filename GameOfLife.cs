@@ -7,7 +7,7 @@ namespace ConwaysGameOfLife
 {
     class GameOfLife
     {
-        public bool[][] spielfeld;
+        public Cell[][] spielfeld;
         //Anzahl an Lebenden nachtbarn bei denen eine zelle überlebt
         private List<byte> survive = new List<byte> { 2, 3 };
         //Anzahl an Lebenden nachbarn bei dem eine tote zelle lebendig wird
@@ -21,28 +21,28 @@ namespace ConwaysGameOfLife
             byte neigbourCount = 0;
             //Links
             if (x > 0)
-                if (spielfeld[x - 1][y]) neigbourCount++;
+                if (spielfeld[x - 1][y].alive) neigbourCount++;
             //Oben
             if (y > 0)
-                if (spielfeld[x][y - 1]) neigbourCount++;
+                if (spielfeld[x][y - 1].alive) neigbourCount++;
             //Rechts
             if (x < spielfeld.GetLength(0) - 1)
-                if (spielfeld[x + 1][y]) neigbourCount++;
+                if (spielfeld[x + 1][y].alive) neigbourCount++;
             //Unten
             if (y < spielfeld.GetLength(1) - 1)
-                if (spielfeld[x][y + 1]) neigbourCount++;
+                if (spielfeld[x][y + 1].alive) neigbourCount++;
             //Links-Oben
             if (x > 0 && y > 0)
-                if (spielfeld[x - 1][y - 1]) neigbourCount++;
+                if (spielfeld[x - 1][y - 1].alive) neigbourCount++;
             //Links-Unten
             if (x > 0 && y < spielfeld.GetLength(1) - 1)
-                if (spielfeld[x - 1] [y + 1]) neigbourCount++;
+                if (spielfeld[x - 1] [y + 1].alive) neigbourCount++;
             //Recht-Oben
             if (x < spielfeld.GetLength(0) - 1 && y > 0)
-                if (spielfeld[x + 1][y - 1]) neigbourCount++;
+                if (spielfeld[x + 1][y - 1].alive) neigbourCount++;
             //Rechts-Unten
             if (x < spielfeld.GetLength(0) - 1 && y < spielfeld.GetLength(1) - 1)
-                if (spielfeld[x + 1][y + 1]) neigbourCount++;
+                if (spielfeld[x + 1][y + 1].alive) neigbourCount++;
 
 
             return neigbourCount;
@@ -51,31 +51,31 @@ namespace ConwaysGameOfLife
         
         private void initSpielfeld (ushort xSize, ushort ySize)
         {
-            spielfeld = new bool[xSize][];
+            spielfeld = new Cell[xSize][];
             for (ushort i = 0; i<spielfeld.GetLength(0); i++)
             {
-                spielfeld[i] = new bool[ySize];
+                spielfeld[i] = new Cell[ySize];
             }
         }
         public void stepLife()
         {
-            bool[][] neuesSpielFeld = (bool[][])spielfeld.Clone();
+            Cell[][] neuesSpielFeld = (Cell[][])spielfeld.Clone();
             for (ushort x = 0; x < spielfeld.GetLength(0); x++)
             {
                 for (ushort y = 0; y < spielfeld.GetLength(1); y++)
                 {
                     //Lebende Zellen
-                    if (spielfeld[x][y])
+                    if (spielfeld[x][y].alive)
                     {
                         //Wenn die zelle nicht überlebt (wenn nicht die richtige anzahl an nachtban vorhanden sind)
                         if (!survive.Contains(CheckNeighbours(x, y)))
-                            neuesSpielFeld[x][y] = !spielfeld[x][y];
+                            neuesSpielFeld[x][y].alive = !spielfeld[x][y].alive;
                     }
                     else //Tote Zellen
                     {
                         //Wenn eine neue Zelle Geborten werden soll
                         if (birth.Contains(CheckNeighbours(x, y)))
-                            neuesSpielFeld[x][y] = !spielfeld[x][y];
+                            neuesSpielFeld[x][y].alive = !spielfeld[x][y].alive;
                     }
                 }
             }
