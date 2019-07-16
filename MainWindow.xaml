@@ -11,7 +11,7 @@
 
     <Window.Resources>
         <DataTemplate x:Key="DataTemplate_Level2">
-            <CheckBox  Height="auto" Width="auto" Margin="0,0,0,0" IsChecked="{Binding Path=alive}" BorderThickness="0" Style="{DynamicResource gameCellBox}"/>
+            <CheckBox  Height="10" Width="10" Margin="0,0,0,0" IsChecked="{Binding Path=Alive, Mode=TwoWay}" BorderThickness="1" Style="{DynamicResource gameCellBox}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="DataTemplate_Level1">
@@ -23,9 +23,9 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </DataTemplate>
-        
-        
-        
+
+
+
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -58,25 +58,15 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type CheckBox}">
-                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Border x:Name="checkBoxBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                <Grid x:Name="markGrid" Background="Red">
-                                    <Path x:Name="optionMark" Data="M 1,3 C1,3 1,6 1,6 1,6 4,9 4,9 4,9 9,3 9,3 9,3 9,0 9,0 9,0 4,6 4,6 4,6 1,3 1,3 z" Fill="{TemplateBinding TextElement.Foreground}" Margin="2,1,1,1" Opacity="0" Stretch="Uniform"/>
-                                    <Rectangle x:Name="indeterminateMark" Fill="{TemplateBinding TextElement.Foreground}" Margin="2" Opacity="0"/>
-                                </Grid>
-                            </Border>
-                            <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Grid>
+                        <Border x:Name="checkBoxBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" MinHeight="1" MinWidth="1"></Rectangle>
+                        </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Opacity" TargetName="templateRoot" Value="0.56"/>
+                                <Setter Property="Opacity" TargetName="checkBoxBorder" Value="0.56"/>
                             </Trigger>
                             <Trigger Property="IsChecked" Value="true">
-                                <Setter Property="Background" TargetName="markGrid" Value="green"/>
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="green"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -92,11 +82,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="90"/>
         </Grid.RowDefinitions>
-        <Viewbox Stretch="Uniform" StretchDirection="Both" Width="Auto" Grid.Row="0">
-            <ItemsControl Height="Auto" Width="Auto" x:Name="Spielfeld"  ItemTemplate="{DynamicResource DataTemplate_Level1}" Margin="10"/>
+        <Viewbox Stretch="Uniform" StretchDirection="Both" Grid.Row="0">
+            <ItemsControl Height="Auto" Width="Auto" x:Name="Spielfeld"  ItemTemplate="{DynamicResource DataTemplate_Level1}" Margin="2"/>
         </Viewbox>
-        <Button Content="Single Step" HorizontalAlignment="Left" Height="48" Margin="10,0,0,0" VerticalAlignment="Center" Width="150" Click="Button_Click" Grid.Row="1"/>
-        <CheckBox HorizontalAlignment="Left" Height="15" Margin="227,54,0,0" Grid.Row="1" VerticalAlignment="Top" Width="20" Style="{DynamicResource CheckBoxStyle1}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button x:Name="btnSingleStep" Content="Single Step" HorizontalAlignment="Left" Height="48" Margin="10,0,0,0" VerticalAlignment="Center" Width="150" Click="BtnSingleStep_Click"/>
+        </StackPanel>
     </Grid>
 
 </Window>

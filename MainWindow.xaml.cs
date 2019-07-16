@@ -21,15 +21,17 @@ namespace ConwaysGameOfLife
     /// </summary>
     public partial class MainWindow : Window
     {
-        GameOfLife life = new GameOfLife();
+        private GameOfLife life;
         public MainWindow()
         {
             InitializeComponent();
+            life = new GameOfLife();
+            Spielfeld.ItemsSource = life.spielfeld;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BtnSingleStep_Click(object sender, RoutedEventArgs e)
         {
-            Spielfeld.ItemsSource = life.spielfeld;
+            life.stepLife();
         }
     }
 }

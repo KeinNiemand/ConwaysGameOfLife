@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace ConwaysGameOfLife
 {
-    struct Cell
+    class Cell : INotifyPropertyChanged
     {
-        public bool alive { get; set; }
+        private bool alive;
+        public bool Alive { get { return alive; } set { alive = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Alive")); } }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
