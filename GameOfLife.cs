@@ -59,7 +59,6 @@ namespace ConwaysGameOfLife
                     spielfeld[i][j] = new Cell();
                 }
             }
-            spielfeld[0][0].Alive = true;
         }
         public void StepLife()
         {

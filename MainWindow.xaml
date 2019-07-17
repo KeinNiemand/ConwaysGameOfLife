@@ -85,12 +85,15 @@
         <Viewbox Stretch="Uniform" StretchDirection="Both" Grid.Row="0">
             <ItemsControl Height="Auto" Width="Auto" x:Name="Spielfeld"  ItemTemplate="{DynamicResource DataTemplate_Level1}" Margin="2"/>
         </Viewbox>
-        <StackPanel Orientation="Horizontal" Grid.Row="1">
-            <Button x:Name="btnSingleStep" Content="Single Step" HorizontalAlignment="Left" Height="48" Margin="10,0,0,0" VerticalAlignment="Center" Width="150" Click="BtnSingleStep_Click"/>
-            <Button x:Name="btnAutoPlay" Content="Start Auto Play" HorizontalAlignment="Left" Height="48" Margin="10,0,0,0" VerticalAlignment="Center" Width="150" Click="BtnAutoPlay_Click"/>
-            <Label Content="" VerticalAlignment="Center" Margin="10,0,0,0"/>
-            <Slider Width="600" VerticalAlignment="Center" Margin="5,0,0,0" Minimum="10" Value="{Binding TimerMilliseconds, ElementName=wndMainWindow, Mode=TwoWay}" Maximum="10000" LargeChange="100" SmallChange="10"/>
-        </StackPanel>
+        <Viewbox Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="btnSingleStep" Content="Single Step" HorizontalAlignment="Left" Height="48" Margin="10,0,0,0" VerticalAlignment="Center" Width="150" Click="BtnSingleStep_Click"/>
+                <Button x:Name="btnAutoPlay" Content="Start Auto Play" HorizontalAlignment="Left" Height="48" Margin="10,0,0,0" VerticalAlignment="Center" Width="150" Click="BtnAutoPlay_Click"/>
+                <Label Content="Speed:" VerticalAlignment="Center" Margin="15,0,0,0"/>
+                <Slider x:Name="sldSpeed" Width="600" VerticalAlignment="Center" Margin="4,0,0,0" Minimum="0" Value="{Binding ScaledTimerSpeed, ElementName=wndMainWindow, Mode=TwoWay}" Maximum="1" LargeChange="0.01" SmallChange="0.001"/>
+            </StackPanel>
+        </Viewbox>
+        
     </Grid>
 
 </Window>

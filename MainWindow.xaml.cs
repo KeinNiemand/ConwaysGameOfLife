@@ -24,7 +24,7 @@ namespace ConwaysGameOfLife
     {
         private GameOfLife life;
         private DispatcherTimer timer;
-        public double TimerMilliseconds
+        private double TimerMilliseconds
         {
             get
             {
@@ -35,12 +35,29 @@ namespace ConwaysGameOfLife
                 timer.Interval = TimeSpan.FromMilliseconds(Convert.ToInt32(value));
             }
         }
-
-        public string TimerText
-        { get
+        //Amount of Milisecond at 1x speed
+        private const double SPEED1xMILISECONDS = 1000;
+        private const double MAX_SPEED = 60;
+        private const double MIN_SPEED = 0.2;
+        private double TimerSpeed
+        {
+            get => SPEED1xMILISECONDS / TimerMilliseconds;
+            set
             {
-                return timer.Interval.ToString() + ":";
-            } }
+                TimerMilliseconds = SPEED1xMILISECONDS / value;
+            }
+        }
+
+        //value between 0 and one with 0 beeing MIN_SPEED and 1 beeing MAX_SPEED with an exponential scale
+        public double ScaledTimerSpeed
+        {
+            get => (Math.Log10(TimerSpeed)-Math.Log10(MIN_SPEED))/(Math.Log10(MAX_SPEED)-Math.Log10(MIN_SPEED));
+            set
+            {
+                TimerSpeed = Math.Pow(10d, (value * (Math.Log10(MAX_SPEED)-Math.Log10(MIN_SPEED)))+Math.Log10(MIN_SPEED));
+            }
+        }
+
         public MainWindow()
         {
             timer = new DispatcherTimer();
