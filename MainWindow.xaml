@@ -87,6 +87,9 @@
         </Viewbox>
         <StackPanel Orientation="Horizontal" Grid.Row="1">
             <Button x:Name="btnSingleStep" Content="Single Step" HorizontalAlignment="Left" Height="48" Margin="10,0,0,0" VerticalAlignment="Center" Width="150" Click="BtnSingleStep_Click"/>
+            <Button x:Name="btnAutoPlay" Content="Start Auto Play" HorizontalAlignment="Left" Height="48" Margin="10,0,0,0" VerticalAlignment="Center" Width="150" Click="BtnAutoPlay_Click"/>
+            <Label Content="" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <Slider Width="600" VerticalAlignment="Center" Margin="5,0,0,0" Minimum="10" Value="{Binding TimerMilliseconds, ElementName=wndMainWindow, Mode=TwoWay}" Maximum="10000" LargeChange="100" SmallChange="10"/>
         </StackPanel>
     </Grid>
 

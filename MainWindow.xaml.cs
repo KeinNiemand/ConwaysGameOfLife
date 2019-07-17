@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Data;
+using System.Windows.Threading;
+using System.ComponentModel;
 
 namespace ConwaysGameOfLife
 {
@@ -22,16 +23,57 @@ namespace ConwaysGameOfLife
     public partial class MainWindow : Window
     {
         private GameOfLife life;
+        private DispatcherTimer timer;
+        public double TimerMilliseconds
+        {
+            get
+            {
+                return timer.Interval.TotalMilliseconds;
+            }
+            set
+            {
+                timer.Interval = TimeSpan.FromMilliseconds(Convert.ToInt32(value));
+            }
+        }
+
+        public string TimerText
+        { get
+            {
+                return timer.Interval.ToString() + ":";
+            } }
         public MainWindow()
         {
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(timer_Tick);
+            timer.Interval = new TimeSpan(0, 0, 1);
             InitializeComponent();
             life = new GameOfLife();
             Spielfeld.ItemsSource = life.spielfeld;
+
         }
 
         private void BtnSingleStep_Click(object sender, RoutedEventArgs e)
         {
-            life.stepLife();
+            life.StepLife();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            life.StepLife();
+        }
+
+        private void BtnAutoPlay_Click(object sender, RoutedEventArgs e)
+        {
+            if (timer.IsEnabled)
+            {
+                timer.Stop();
+                btnAutoPlay.Content = "Start Auto Play";
+            }
+            else
+            {
+                timer.Start();
+                btnAutoPlay.Content = "Stop Auto Play";
+            }
         }
     }
 }

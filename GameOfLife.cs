@@ -14,7 +14,7 @@ namespace ConwaysGameOfLife
         private List<byte> birth = new List<byte> { 3 };
         public GameOfLife()
         {
-            initSpielfeld(50,50);
+            InitSpielfeld(50,50);
         }
         private byte CheckNeighbours(ushort x, ushort y)
         {
@@ -48,7 +48,7 @@ namespace ConwaysGameOfLife
             return neigbourCount;
         }
 
-        private void initSpielfeld (ushort xSize, ushort ySize)
+        private void InitSpielfeld (ushort xSize, ushort ySize)
         {
             spielfeld = new Cell[xSize][];
             for (ushort i = 0; i<spielfeld.Length; i++)
@@ -61,9 +61,9 @@ namespace ConwaysGameOfLife
             }
             spielfeld[0][0].Alive = true;
         }
-        public void stepLife()
+        public void StepLife()
         {
-            Cell[][] neuesSpielFeld = (Cell[][])spielfeld.Clone();
+            Cell[][] neuesSpielFeld = CopySpielfeld();
             for (ushort x = 0; x < spielfeld.Length; x++)
             {
                 for (ushort y = 0; y < spielfeld[0].Length; y++)
@@ -73,18 +73,50 @@ namespace ConwaysGameOfLife
                     {
                         //Wenn die zelle nicht überlebt (wenn nicht die richtige anzahl an nachtban vorhanden sind)
                         if (!survive.Contains(CheckNeighbours(x, y)))
-                            neuesSpielFeld[x][y].Alive = !spielfeld[x][y].Alive;
+                            neuesSpielFeld[x][y].Alive = false;
                     }
                     else //Tote Zellen
                     {
                         //Wenn eine neue Zelle Geborten werden soll
                         if (birth.Contains(CheckNeighbours(x, y)))
-                            neuesSpielFeld[x][y].Alive = !spielfeld[x][y].Alive;
+                            neuesSpielFeld[x][y].Alive = true;
                     }
                 }
             }
-            spielfeld = neuesSpielFeld;
+            UpdateSpielfeldValues(neuesSpielFeld);
         }
 
+        private Cell[][] CopySpielfeld()
+        {
+            //Erstelle ein neues Cell[][] mit der gleichen größe wie das alte spielfeld
+            Cell[][] neuesSpielFeld = new Cell[spielfeld.Length][];
+            int a = 1;
+            //Gehe durch alle spalten
+            for (short x = 0; x < spielfeld.Length; x++)
+            {
+                //Erstelle ein neues Cell[] mit der gleichen größe wie das alte spielfeld
+                neuesSpielFeld[x] = new Cell[spielfeld[x].Length];
+                for (short y = 0; y < spielfeld[x].Length; y++)
+                {
+                    //Clone every cell from the old spielfeld into the new one
+                    neuesSpielFeld[x][y] = (Cell)spielfeld[x][y].Clone();
+                }
+            }
+            //return the new spielfeld
+            return neuesSpielFeld;
+        }
+
+        private void UpdateSpielfeldValues(Cell[][] neuesSpielfeld)
+        {
+            for (short x = 0; x<spielfeld.Length; x++)
+            {
+                for (short y = 0; y<spielfeld.Length; y++)
+                {
+                    spielfeld[x][y].Alive = neuesSpielfeld[x][y].Alive;
+                }
+            }
+        }
+
+        
     }
 }
